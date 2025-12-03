@@ -42,18 +42,14 @@ def pageRankPower(A: np.matrix, alpha: float, v: np.array) -> np.array:
             P[i, :] = 1/n
 
     v = v/np.sum(v)
-    print(v)
     b = (1-alpha)*np.outer(np.ones(n), v) #application de la formule de la power méthode
-    print(b)
     G = alpha * P + b
-    print(G)
-    x = np.ones(n)/1/n
+    x = np.ones(n)/n
     for m in range (10000):
         new = G @ x
         if (np.linalg.norm(new - x, 1) < 1e-8):
             return new / np.sum(new)
         x = new
-
 
 def randomWalk(A: np.matrix, alpha: float, v: np.array) -> np.array:
     # Simulation de la marche aléatoire (10 000 pas)
