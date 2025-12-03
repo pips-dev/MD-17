@@ -24,40 +24,27 @@ def pageRankLinear(A: np.matrix, alpha: float, v: np.array) -> np.array:
     x = x/np.sum(x)
     return x
 
-
-    
-
 def pageRankPower(A: np.matrix, alpha: float, v: np.array) -> np.array:
     # Implémentation de la power method
-    # Affiche les matrices A, P, G, les 3 premières itérations, et le résultat final
-    n = A.shape(0)
-    rows = A.sum(axis=1)
-    P = np.zeros((n,n))
-    for i in range(n):
-        for j in range(n):
-            if rows[i]== 0:
-                P[i][j] = 1/n
-            P = A/rows[i]
-    I = np.eye(n)
-    b = (1-alpha)*v
-    G =(I - alpha * P) * np.outer(v,np.ones(n))
+    n = A.shape[0]
+
+    #normalisation de la matrice A en matrice de transistions de probabilités
+    row_sum = A.sum(axis=1, keepdims=True)
+    row_sum[row_sum == 0] = 1
+    P = A / row_sum
+
+    I = np.eye(n) #matrice diagonale remplie de 1 = matrice identité
+    v = v/np.sum(v)  #normalisation du vecteur v
+    v = np.transpose(v)
+    x_{k+1} = α P x_k + (1−α) v
+    G = alpha * P + (1
     x = np.ones(n)/n
     while True :
         new = G @ x
         if (np.linalg.norm(new - x) < 0.0000000001):
             return new
         x = new
-    return x
     
-
-
-
-
-
-
-    
-
-
 def randomWalk(A: np.matrix, alpha: float, v: np.array) -> np.array:
     # Simulation de la marche aléatoire (10 000 pas)
     # Retourne le vecteur x des scores PageRank approximés

@@ -5,7 +5,7 @@ def main():
 
     #lecture des fichiers avec la matrice d'adjacence et le vecteur de personnalisation
     A = np.loadtxt('MatriceAdjacence.csv', delimiter=',')
-    v = np.loadtxt('VecteurPersonnalision.csv', delimiter= ',')
+    v = np.loadtxt('VecteurPersonnalisation.csv', delimiter= ',')
 
     #paramètre de téléportation
     alpha = 0.9
@@ -19,6 +19,11 @@ def main():
     print(linear)
     print(power)
     print(random)
+
+def main2(): #Tests
+    A = np.loadtxt('MatriceAdjacence.csv', delimiter=',')
+    v = np.loadtxt('VecteurPersonnalisation.csv', delimiter= ',')
+
 
 if (__name__ == '__main__'):
     main()
