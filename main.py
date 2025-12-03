@@ -13,12 +13,12 @@ def main():
     #appel des fonctions afin de calculer pagerank
     linear = pageRankLinear(A, alpha, v)
     power = pageRankPower(A, alpha, v)
-    random = randomWalk(A, alpha, v)
+    #random = randomWalk(A, alpha, v)
 
     #afficher les résultats obtenus
     print(linear)
     print(power)
-    print(random)
+    #print(random)
 
 def main2(): #Tests
     A = np.loadtxt('MatriceAdjacence.csv', delimiter=',')
