@@ -49,4 +49,21 @@ def pageRankPower(A: np.matrix, alpha: float, v: np.array) -> np.array:
 def randomWalk(A: np.matrix, alpha: float, v: np.array) -> np.array:
     # Simulation de la marche aléatoire (10 000 pas)
     # Retourne le vecteur x des scores PageRank approximés
-    pass
+    
+    n = A.shape[0]
+
+    # normalisation de matrice A en matrice de transitions de probabilité
+    row_sum = A.sum(axis=1, keepdims=True)
+    row_sum[row_sum == 0] = 1
+    P = A / row_sum
+    v = v/np.sum(v)  # normalisation du vecteur v de personnalisation
+
+    x = np.ones(n)/n  # initialisation du vecteur de probabilités uniformes
+    steps = 10000
+    tol = 1e-10
+    for _ in range(steps):
+        new = alpha * P.T @ x + (1 - alpha) * v #formule de random walk
+        if np.linalg.norm(new - x) < tol:
+            break
+        x = new
+    return new
