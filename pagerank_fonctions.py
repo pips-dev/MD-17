@@ -56,14 +56,17 @@ def randomWalk(A: np.matrix, alpha: float, v: np.array) -> np.array:
     row_sum = A.sum(axis=1, keepdims=True)
     row_sum[row_sum == 0] = 1
     P = A / row_sum
+
     v = v/np.sum(v)  # normalisation du vecteur v de personnalisation
 
-    x = np.ones(n)/n  # initialisation du vecteur de probabilités uniformes
     steps = 10000
-    tol = 1e-10
+    count = np.zeros(n)  # compteur des visites à chaque nœud
+    current = np.zeros(n) # vecteur du nœud courant
+    current[0] = 1  # commencer à partir du nœud A
     for _ in range(steps):
-        new = alpha * P.T @ x + (1 - alpha) * v #formule de matrice Google
-        if np.linalg.norm(new - x) < tol:
-            break
-        x = new
-    return new
+        new = alpha * (P.T @ current) + (1 - alpha) * v #formule de matrice Google
+        count += new 
+        current = new #
+    
+    count = count / np.sum(count)  # normalisation pour obtenir les fréquences relatives
+    return count
