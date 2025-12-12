@@ -17,13 +17,10 @@ def main():
 
     #afficher les résultats obtenus
     print(linear)
-    print(power)
+    print(power)  
     print(random)
 
-def main2(): #Tests
-    A = np.loadtxt('MatriceAdjacence.csv', delimiter=',')
-    v = np.loadtxt('VecteurPersonnalisation.csv', delimiter= ',')
-
+    return
 
 if (__name__ == '__main__'):
     main()
