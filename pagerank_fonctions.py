@@ -60,13 +60,25 @@ def randomWalk(A: np.matrix, alpha: float, v: np.array) -> np.array:
     v = v/np.sum(v)  # normalisation du vecteur v de personnalisation
 
     steps = 10000
-    count = np.zeros(n)  # compteur des visites à chaque nœud
-    current = np.zeros(n) # vecteur du nœud courant
-    current[0] = 1  # commencer à partir du nœud A
-    for _ in range(steps):
-        new = alpha * (P.T @ current) + (1 - alpha) * v #formule de matrice Google
-        count += new 
-        current = new #
-    
-    count = count / np.sum(count)  # normalisation pour obtenir les fréquences relatives
+    current = 0 # noeud de départ(A)
+    count = np.zeros(n) # compteur de visites pour chaque noeud
+    old = np.zeros(n)
+    tol = 0.0000000001  # condition d'arrêt demandée
+
+    for s in range(steps):
+        # suivre un lien sortant selon P
+        if np.random.rand() < alpha: # génère un nombre aléatoire entre 0 et 1
+            pro = P[current] 
+            current = np.random.choice(n, p=pro) # choisi le prochain noeud en fonction des probabilités 
+        else:
+            current = np.random.choice(n, p=v) # si pas lien sortant, téléportation selon v
+        count[current] += 1 # incrémenter le noeud visité
+
+        d = count / (s+1)
+
+        if np.linalg.norm(d - old) < tol:
+            break
+
+        old = d
+    count = count/count.sum() # nombre de visites /nombre total de pas
     return count
