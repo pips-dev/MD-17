@@ -1,5 +1,5 @@
 import numpy as np
-
+import matplotlib as plt
 #sources :
 #https://numpy.org/doc/stable/reference/generated/numpy.linalg.solve.html : utilisation pour résoudre les équations linéaires
 #https://courspython.com/tableaux.html : utilisation de numpy
@@ -45,40 +45,28 @@ def pageRankPower(A: np.matrix, alpha: float, v: np.array) -> np.array:
             break
         x = new
     return new
-    
-def randomWalk(A: np.matrix, alpha: float, v: np.array) -> np.array:
-    # Simulation de la marche aléatoire (10 000 pas)
-    # Retourne le vecteur x des scores PageRank approximés
-    
-    n = A.shape[0]
 
-    # normalisation de matrice A en matrice de transitions de probabilité
+def randomWalk(A: np.matrix, alpha: float, v: np.array) -> np.array:
+
+    n = A.shape[0]
+    
     row_sum = A.sum(axis=1, keepdims=True)
     row_sum[row_sum == 0] = 1
     P = A / row_sum
-
-    v = v/np.sum(v)  # normalisation du vecteur v de personnalisation
-
+    
+    vt = np.transpose(v)
+    G = alpha*(P)+(1-alpha)*vt
     steps = 10000
-    current = 0 # noeud de départ(A)
     count = np.zeros(n) # compteur de visites pour chaque noeud
-    old = np.zeros(n)
-    tol = 0.0000000001  # condition d'arrêt demandée
+    current = 0
+    error = []
+    actual = pageRankPower(A, alpha, v)
 
-    for s in range(steps):
-        # suivre un lien sortant selon P
-        if np.random.rand() < alpha: # génère un nombre aléatoire entre 0 et 1
-            pro = P[current] 
-            current = np.random.choice(n, p=pro) # choisi le prochain noeud en fonction des probabilités 
-        else:
-            current = np.random.choice(n, p=v) # si pas lien sortant, téléportation selon v
-        count[current] += 1 # incrémenter le noeud visité
+    for _ in range(steps):
+        proba = np.asarray(G[current])
+        current = np.random.choice(n, p=proba)
+        count[current] += 1
 
-        d = count / (s+1)
+        error.append(np.mean(np.abs((count/count.sum())-actual)))
 
-        if np.linalg.norm(d - old) < tol:
-            break
-
-        old = d
-    count = count/count.sum() # nombre de visites /nombre total de pas
-    return count
+    return count / count.sum(), np.array(error)
