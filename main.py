@@ -16,13 +16,14 @@ def main():
     power = pageRankPower(A, alpha, v)
     random, graph = randomWalk(A, alpha, v)
 
-    plt.plot(graph)
-
     #afficher les résultats obtenus
     print(linear)
     print(power)
     print(random)
+    plt.plot(random)
     plt.show()
-
+    plt.plot(graph)
+    plt.show()
+    
 if (__name__ == '__main__'):
     main()
