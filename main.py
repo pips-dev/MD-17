@@ -22,7 +22,7 @@ def main():
     print(random)
     
     plt.plot(graph)
-    plt.title("Simulation de random walk")
+    plt.title("Simulation de la marche aléatoire")
     plt.xlabel("Nombre de pas au temps k")
     plt.ylabel("Erreur moyenne(ϵ)")
     plt.show()
