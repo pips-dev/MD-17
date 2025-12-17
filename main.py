@@ -32,9 +32,9 @@ def main():
     plt.show()
 
     x = range(10)
-    plt.plot(x, linear, label="Linear")
-    plt.plot(x, power, label="Power")
-    plt.plot(x, random, label="Random Walk")
+    plt.plot(x, power, color="blue", label="Power")
+    plt.plot(x, linear, color="orange", linestyle="--", label="Linear")
+    plt.plot(x, random, color="black", label="Random Walk")
     plt.title('Comparaisons des Résolutions de "PageRank"')
     plt.xlabel("Noeud N")
     plt.ylabel("Score Pagerank")
