@@ -20,9 +20,11 @@ def main():
     print(linear)
     print(power)
     print(random)
-    plt.plot(random)
-    plt.show()
+    
     plt.plot(graph)
+    plt.title("Simulation de random walk")
+    plt.xlabel("Nombre de pas au temps k")
+    plt.ylabel("Erreur moyenne(ϵ)")
     plt.show()
     
 if (__name__ == '__main__'):

@@ -47,7 +47,6 @@ def pageRankPower(A: np.matrix, alpha: float, v: np.array) -> np.array:
     return new
 
 def randomWalk(A: np.matrix, alpha: float, v: np.array) -> np.array:
-
     n = A.shape[0]
     
     row_sum = A.sum(axis=1, keepdims=True)
