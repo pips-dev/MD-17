@@ -7,7 +7,6 @@ def main():
     #lecture des fichiers avec la matrice d'adjacence et le vecteur de personnalisation
     A = np.genfromtxt('MatriceAdjacence.csv', delimiter=',', skip_header=1)
     v = np.genfromtxt('VecteurPersonnalisation_Groupe17.csv', delimiter= ',')
-    print(v.shape)
 
     #paramètre de téléportation
     alpha = 0.9
