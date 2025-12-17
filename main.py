@@ -22,9 +22,9 @@ def main():
     print(random)
     
     plt.plot(graph)
-    plt.title("Simulation de la marche aléatoire")
-    plt.xlabel("Nombre de pas au temps k")
-    plt.ylabel("Erreur moyenne(ϵ)")
+    plt.title("Simulation de la marche aléatoire", fontsize=14, fontweight='semibold')
+    plt.xlabel("Nombre de pas au temps k", fontsize=12, fontweight='medium')
+    plt.ylabel("Erreur moyenne(ϵ)", fontsize=12, fontweight='medium')
     plt.show()
     
 if (__name__ == '__main__'):
