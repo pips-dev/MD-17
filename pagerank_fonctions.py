@@ -27,24 +27,44 @@ def pageRankLinear(A: np.matrix, alpha: float, v: np.array) -> np.array:
 
 def pageRankPower(A: np.matrix, alpha: float, v: np.array) -> np.array:
     # Implémentation de la power method
+    
     n = A.shape[0]
+    print('Matrice d\'adjacence :')
+    print(A)
+    print('____________')
+
 
     #normalisation de la matrice A en matrice de transitions de probabilités
     row_sum = A.sum(axis=1, keepdims=True)
     row_sum[row_sum == 0] = 1
     P = A / row_sum
+    print('Matrice de transition de probabilités :')
+    print(P)
+    print('____________')
+
 
 
     I = np.eye(n) #matrice diagonale remplie de 1 = matrice identité
     v = v/np.sum(v)  #normalisation du vecteur v de personnalisation
-    G = alpha * P + (1 - alpha) * np.ones((n,1)) @ v[np.newaxis, :] #
-    x = np.ones(n)/n #initilialisation du vecteur de probabilités uniformes 
+    G = alpha * P + (1 - alpha) * np.ones((n,1)) @ v[np.newaxis, :] 
+
+    print('Matrice Google :')
+    print(G)
+    print('____________')
+
+    x = np.ones(n)/n #initilialisation du vecteur de probabilités uniformes
+    n = 0 
     while True :
-        new = x @ G #multiplication par la gauche ( et non droite
+        new = x @ G #multiplication par la gauche ( et non droite)
         new = new/np.sum(new) #normalisation de new (x)
         if (np.linalg.norm(new - x) < 0.0000000001):
             break
+        if (n<=3):
+            print('Itérations', n)
+            print(new)
         x = new
+        n += 1
+    print('____________')
     return new
     
 def randomWalk(A: np.matrix, alpha: float, v: np.array) -> np.array:
