@@ -38,7 +38,7 @@ def main():
     plt.title('Comparaisons des Résolutions de "PageRank"')
     plt.xlabel("Noeud N")
     plt.ylabel("Score Pagerank")
-
+    plt.legend()
     plt.show()
 
 if (__name__ == '__main__'):
