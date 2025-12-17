@@ -32,7 +32,7 @@ def main():
     plt.show()
 
     x = range(10)
-    plt.plot(x, power, color="blue", label="Power")
+    plt.plot(x, power, color="green", label="Power")
     plt.plot(x, linear, color="orange", linestyle="--", label="Linear")
     plt.plot(x, random, color="black", label="Random Walk")
     plt.title('Comparaisons des Résolutions de "PageRank"')
