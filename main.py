@@ -13,14 +13,32 @@ def main():
 
     #appel des fonctions afin de calculer pagerank
     linear = pageRankLinear(A, alpha, v)
-    power = pageRankPower(A, alpha, v)
+    power, P, G, iterations = pageRankPower(A, alpha, v)
     random, error = randomWalk(A, alpha, v)
 
     #afficher les résultats obtenus
+    print("\n Matrice d'Adjacence:")
+    print(A)
+    print("_____________________________________________")
+    print("\n Matrice de transition de probabilités P:")
+    print(P)
+    print("_______________________________________________")
+    print("\n Matrice Google G:")
+    print(G)
+    print("_______________________________________________")
+
+    print('\n Itérations de la Power Method:')
+    for i, vec in enumerate(iterations):
+        print("\n Itération {}:".format(i))
+        print(vec)
+    print("_______________________________________________")
+    
     print('\n This is Linear Method')
     print(linear)
+    print
     print('\n This is Power Method')
     print(power)
+    print
     print('\n This is RandomWalk Method')
     print(random)
 
