@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 #https://courspython.com/tableaux.html : utilisation de numpy
 #https://numpy.org/doc/stable/reference/generated/numpy.sum.html : utilisation des sommes de numpy en préservant les dimensions initiales de la matrice
 #https://numpy.org/doc/stable/reference/generated/numpy.expand_dims.html : redimensionnement de numpy
-
+#https://numpy.org/doc/stable/reference/generated/numpy.ndarray.flatten.html : utilisation de flatten() afin de transformer une matrice en vecteur d'une seule dimension (liste)
 #formules utilisées :
 #x=αPx+(1−α)v
 #(I - alpha * P) * x = (1 - alpha) * v
@@ -23,6 +23,8 @@ def pageRankLinear(A: np.matrix, alpha: float, v: np.array) -> np.array:
     b = (1-alpha)*v
     x = np.linalg.solve(I-alpha * P.T, b) #faire la transposée de P car on calcule par la gauche et non par la droite
     x = x/np.sum(x) #normalisation de x
+    print("\nRésultat final (Linear Method) :")
+    print(x)
     return x
 
 def pageRankPower(A: np.matrix, alpha: float, v: np.array) -> np.array:
@@ -30,29 +32,42 @@ def pageRankPower(A: np.matrix, alpha: float, v: np.array) -> np.array:
     
     n = A.shape[0]
 
+    print("\nMatrice d'adjacence A :")
+    print(A)
+    print("\nMatrice de transition P :")
+
     #normalisation de la matrice A en matrice de transitions de probabilités
     row_sum = A.sum(axis=1, keepdims=True)
     row_sum[row_sum == 0] = 1
     P = A / row_sum
 
+    print(P)
+    print("\nMatrice Google G :")
+
     I = np.eye(n) #matrice diagonale remplie de 1 = matrice identité
     v = v/np.sum(v)  #normalisation du vecteur v de personnalisation
     G = alpha * P + (1 - alpha) * np.ones((n,1)) @ v[np.newaxis, :] 
+    
+    print(G)
 
-    x = np.ones(n)/n #initilialisation du vecteur de probabilités uniformes
+    indegree = A.sum(axis=0).flatten()  #somme des colonnes (degré entrant)
+    x = indegree / indegree.sum()  #initilialisation du vecteur x avec les degrées entrants
     k = 0 
-    iterations = []
     while True :
         new = x @ G #multiplication par la gauche ( et non droite)
         new = new/np.sum(new) #normalisation de new (x)
         if (np.linalg.norm(new - x) < 0.0000000001):
             break
-        if (k<=3):
-            iterations.append(new.copy())
+        if (k<3):
+
+            print(f"\nItération {k} :")
+            print(new)       
         x = new
         k += 1
-
-    return new, P, G, iterations
+    
+    print("\nRésultat final (Power Method) :")
+    print(new)
+    return new
     
 def randomWalk(A: np.matrix, alpha: float, v: np.array) -> np.array:
     # Simulation de la marche aléatoire (10 000 pas)
@@ -71,7 +86,7 @@ def randomWalk(A: np.matrix, alpha: float, v: np.array) -> np.array:
     current = 0 # noeud de départ(A)
     count = np.zeros(n) # compteur de visites pour chaque noeud
     error = []
-    actual = pageRankPower(A, alpha, v)[0]
+    actual = pageRankLinear(A, alpha, v)
     for i in range(steps):
         # suivre un lien sortant selon P
         if np.random.rand() < alpha: # génère un nombre aléatoire entre 0 et 1
@@ -83,4 +98,6 @@ def randomWalk(A: np.matrix, alpha: float, v: np.array) -> np.array:
         error.append(np.mean(np.abs((count/count.sum())-actual)))
     
     count = count/count.sum() # nombre de visites /nombre total de pas
+    print("\nRésultat final (Random Walk) :")
+    print(count)
     return count, error
